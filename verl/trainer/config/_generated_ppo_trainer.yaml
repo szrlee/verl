@@ -18,7 +18,8 @@ actor_rollout_ref:
       clip_grad: 1.0
       min_lr_ratio: 0.0
       num_cycles: 0.5
-      warmup_style: constant
+      lr_scheduler_type: constant
+      warmup_style: null
     fsdp_config:
       _target_: verl.workers.config.FSDPEngineConfig
       wrap_policy:
@@ -176,6 +177,7 @@ actor_rollout_ref:
     tensor_model_parallel_size: 2
     data_parallel_size: 1
     expert_parallel_size: 1
+    pipeline_model_parallel_size: 1
     max_num_batched_tokens: 8192
     max_model_len: null
     max_num_seqs: 1024
@@ -219,6 +221,7 @@ actor_rollout_ref:
     agent:
       _target_: verl.workers.config.AgentLoopConfig
       num_workers: 8
+      default_agent_loop: single_turn_agent
       agent_loop_config_path: null
       custom_async_server:
         _target_: verl.workers.config.CustomAsyncServerConfig
@@ -312,7 +315,8 @@ critic:
     clip_grad: 1.0
     min_lr_ratio: 0.0
     num_cycles: 0.5
-    warmup_style: constant
+    lr_scheduler_type: constant
+    warmup_style: null
   model:
     fsdp_config:
       _target_: verl.workers.config.FSDPEngineConfig
